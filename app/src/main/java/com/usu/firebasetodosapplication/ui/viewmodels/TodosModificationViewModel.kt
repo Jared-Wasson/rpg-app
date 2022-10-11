@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.usu.firebasetodosapplication.ui.models.Todo
+import com.usu.firebasetodosapplication.ui.repositories.TodosRepository
 import kotlin.Exception
 
 class TodosModificationScreenState {
@@ -22,6 +23,23 @@ class TodosModificationScreenState {
 
 class TodosModificationViewModel(application: Application): AndroidViewModel(application) {
     val uiState = TodosModificationScreenState()
+    var id: String? = null
+
+    suspend fun setInitialState(id: String) {
+        if (id == null || id == "new") {
+            return
+        }
+        this.id = id
+        val todo = TodosRepository.getTodos().find { it.id == this.id  }
+        if (todo == null) {
+            return
+        }
+        uiState.title = todo.title?: ""
+        uiState.description = todo.description?: ""
+        uiState.estimatedCompletionTime = "${todo.estimatedCompletionTime?: 1}"
+        uiState.priority = todo.priority?: Todo.PRIORITY_LOW
+
+    }
 
     fun updateCompletionTime(input: String) {
         uiState.completionTimeError = false
@@ -48,6 +66,21 @@ class TodosModificationViewModel(application: Application): AndroidViewModel(app
             uiState.titleError = true
             uiState.errorMessage = "Title cannot be blank."
             return
+        }
+
+        if (id == null) {
+            TodosRepository.createTodo(uiState.title,
+                uiState.description, uiState.priority, uiState.estimatedCompletionTime.toInt())
+        } else {
+            val todo = TodosRepository.getTodos().find { it.id == this.id  }?: return
+                TodosRepository.updateTodo(
+                    todo.copy(
+                        title = uiState.title,
+                        priority = uiState.priority,
+                        estimatedCompletionTime = uiState.estimatedCompletionTime.toInt(),
+                        description = uiState.description
+                    )
+                )
         }
         uiState.saveSuccess = true
         // TODO: handle new todo creation and modification

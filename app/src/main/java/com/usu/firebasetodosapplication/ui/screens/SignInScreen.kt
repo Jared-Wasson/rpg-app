@@ -3,14 +3,17 @@ package com.usu.firebasetodosapplication.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import com.usu.firebasetodosapplication.ui.components.FormField
+import com.usu.firebasetodosapplication.ui.navigation.Routes
 import com.usu.firebasetodosapplication.ui.viewmodels.SignInViewModel
 import com.usu.firebasetodosapplication.ui.viewmodels.SignUpViewModel
 import kotlinx.coroutines.launch
@@ -20,6 +23,13 @@ fun SignInScreen(navHostController: NavHostController) {
     val viewModel: SignInViewModel = viewModel()
     val scope = rememberCoroutineScope()
     val state = viewModel.uiState
+    LaunchedEffect(state.loginSuccess) {
+        if (state.loginSuccess) {
+            navHostController.navigate(Routes.todosNavigation.route) {
+             popUpTo(0)
+            }
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()

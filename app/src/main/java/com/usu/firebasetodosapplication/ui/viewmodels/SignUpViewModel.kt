@@ -5,6 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import com.usu.firebasetodosapplication.ui.repositories.SignUpException
+import com.usu.firebasetodosapplication.ui.repositories.UserRepository
+import java.lang.Exception
 
 class SignUpScreenState {
     var email by mutableStateOf("")
@@ -16,6 +19,7 @@ class SignUpScreenState {
     var passwordError by mutableStateOf(false)
     var passwordConfirmationError by mutableStateOf(false)
     var errorMessage by mutableStateOf("")
+    var signUpSuccess by mutableStateOf(false)
 }
 
 class SignUpViewModel(application: Application): AndroidViewModel(application) {
@@ -52,5 +56,12 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
         }
 
         // TODO: create user in firebase
+        try {
+            UserRepository.createUser(uiState.email, uiState.password)
+            uiState.signUpSuccess = true
+        } catch (e: SignUpException) {
+            uiState.errorMessage = e.message?: "something went wrong. Please try again"
+        }
+
     }
 }

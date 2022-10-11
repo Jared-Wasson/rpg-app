@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "637749426344",
+    "project_id": "fir-todosapplication-34a0d",
+    "storage_bucket": "fir-todosapplication-34a0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637749426344:android:f37b567a80655bfe142a9d",
+        "android_client_info": {
+          "package_name": "com.usu.firebasetodosapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637749426344-idmq43f84s9870jkcn0cekjm4v8750qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnc-6--gAKtP8EdxAqlYeETB-G9v7cJpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637749426344-idmq43f84s9870jkcn0cekjm4v8750qi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
